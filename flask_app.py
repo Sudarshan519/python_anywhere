@@ -32,10 +32,10 @@ if path not in sys.path:
 
 # from flask_app import app  
 
-@app.route('/')
-def home():
-    # etc etc, flask app code
-    return {"response":"Hello  world"}
+# @app.route('/')
+# def home():
+#     # etc etc, flask app code
+#     return {"response":"Hello  world"}
 
 
 class Student(db.Model):
@@ -63,9 +63,9 @@ def student(student_id):
     return render_template('student.html', student=student)
 
 
-@app.route('/create/', methods=('GET', 'POST'))
-def create():
-    return render_template('create.html')
+# @app.route('/create/', methods=('GET', 'POST'))
+# def create():
+#     return render_template('create.html')
 
 @app.route('/create/', methods=('GET', 'POST'))
 def create():
