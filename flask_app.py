@@ -1,15 +1,15 @@
 
 # A very simple Flask Hello World app for you to get started with...
 
-from socket import gethostname
+# from socket import gethostname
 import sys
 from flask import Flask, render_template, request, url_for, redirect,jsonify
 from flask_sqlalchemy import SQLAlchemy
 app=Flask(__name__)
 import os
 from sqlalchemy.sql import func
-from sqlalchemy_serializer import SerializerMixin
-from dataclasses import dataclass 
+# from sqlalchemy_serializer import SerializerMixin
+# from dataclasses import dataclass 
 from flask_serialize import FlaskSerialize
 #DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
 
