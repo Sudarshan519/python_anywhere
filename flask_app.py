@@ -12,8 +12,13 @@ from sqlalchemy.sql import func
 # from dataclasses import dataclass 
 from flask_serialize import FlaskSerialize
 #DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
+# DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
 
+# app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL_PYTHON
+# app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+# app.config['SQLALCHEMY_POOL_TIMEOUT'] = 300  # For example, set to 30 seconds
 
 # db = SQLAlchemy(app)
 
@@ -23,11 +28,8 @@ app = Flask(__name__)
 # app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL_PYTHON
 app.config['SQLALCHEMY_DATABASE_URI'] =\
         'sqlite:///' + os.path.join(basedir, 'database.db')
-
-app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-app.config['SQLALCHEMY_POOL_TIMEOUT'] = 300  # For example, set to 30 seconds
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)  
