@@ -11,7 +11,7 @@ from sqlalchemy.sql import func
 from sqlalchemy_serializer import SerializerMixin
 from dataclasses import dataclass 
 from flask_serialize import FlaskSerialize
-DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
+#DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
 
 
 
@@ -20,9 +20,9 @@ DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@Sudarshan
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL_PYTHON
-# app.config['SQLALCHEMY_DATABASE_URI'] =\
-#         'sqlite:///' + os.path.join(basedir, 'database.db')
+#app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL_PYTHON
+pp.config['SQLALCHEMY_DATABASE_URI'] =\
+         'sqlite:///' + os.path.join(basedir, 'database.db')
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -142,5 +142,5 @@ def delete(student_id):
 if __name__ == '__main__':
     # db.create_all()
     # if 'liveconsole' not in gethostname():
-        app.run(host='0.0.0.0',debug=True)
-        # app.run(debug=True)
+#        app.run(host='0.0.0.0',debug=True)
+        app.run(debug=True)
