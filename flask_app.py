@@ -10,7 +10,7 @@ import os
 from sqlalchemy.sql import func
 # from sqlalchemy_serializer import SerializerMixin
 # from dataclasses import dataclass 
-from flask_serialize import FlaskSerialize
+# from flask_serialize import FlaskSerialize
 #DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
 DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
 
@@ -28,12 +28,12 @@ app = Flask(__name__)
 # app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL_PYTHON
 app.config['SQLALCHEMY_DATABASE_URI'] =DATABASE_URL_PYTHON
 # 'sqlite:///' + os.path.join(basedir, 'database.db')
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)  
-fs_mixin = FlaskSerialize(db)
+# fs_mixin = FlaskSerialize(db)
 path = '/home/SudarshanShrestha/mysite'
 if path not in sys.path:
    sys.path.insert(0, path)
@@ -51,7 +51,7 @@ if path not in sys.path:
 #     )
 
     
-class Student(fs_mixin,db.Model):
+class Student(db.Model):#fs_mixin
 #     serialize_only = ('id', 'email_id', 'role_type', 'users.id')
     
 #     serialize_rules = ('-merchants')
@@ -129,12 +129,12 @@ def edit(student_id):
     return render_template('edit.html', student=student)
 
 
-@app.route('/student/<int:item_id>')
-@app.route('/students', methods=['GET', 'POST'])
-def all_students(item_id=None):
-    students=Student.query.all()
-    # return Item.fs_get_delete_put_post(item_id)
-    return Student.fs_get_delete_put_post(item_id)
+# @app.route('/student/<int:item_id>')
+# @app.route('/students', methods=['GET', 'POST'])
+# def all_students(item_id=None):
+#     students=Student.query.all()
+#     # return Item.fs_get_delete_put_post(item_id)
+#     return Student.fs_get_delete_put_post(item_id)
 
 
 @app.post('/<int:student_id>/delete/')
