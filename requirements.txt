@@ -1,3 +1,3 @@
 flask
 flask-serialize
-Flask-SQLAlchemy
+flask-sqlalchemy

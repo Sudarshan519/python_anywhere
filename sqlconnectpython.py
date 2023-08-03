@@ -1,10 +1,10 @@
 import mysql.connector
-
+import sshtunnel
 try:
     mydb = mysql.connector.connect(
     host="SudarshanShrestha.mysql.pythonanywhere-services.com",
-    user="SudarshanShresth",
-    password="Asmir123",
+    user="sudarshanshresth",
+    password="test",
     database="SudarshanShresth$default"
     
     )
