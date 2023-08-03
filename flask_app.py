@@ -11,7 +11,7 @@ from sqlalchemy.sql import func
 # from sqlalchemy_serializer import SerializerMixin
 # from dataclasses import dataclass 
 from flask_serialize import FlaskSerialize
-from flask_swagger import swagger
+# from flask_swagger import swagger
 #DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
 # DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
 
@@ -31,9 +31,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///' + os.path.join(basedir, 'database.db')
 #DATABASE_URL_PYTHON
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-@app.route("/spec")
-def spec():
-    return jsonify(swagger(app))
+# @app.route("/spec")
+# def spec():
+#     return jsonify(swagger(app))
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)  
