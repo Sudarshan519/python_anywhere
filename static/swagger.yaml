@@ -1,0 +1,224 @@
+openapi: 3.0.1
+info:
+  title: Application
+  description: Generated at 24/09/2023 20:29:27. This is the swagger 
+    ui based on the open api 3.0 specification of the Application
+  version: 1.0.0 created by the flask swagger generator.
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+servers:
+  - url: '/'
+paths:
+  '/api/docs/dist/{filename}':
+    get:
+      tags:
+      - swagger_ui
+      operationId: 'static'
+      parameters:
+      - in: path
+        name: filename
+        schema:
+          type: string
+        description: None
+        required: True
+  '/api/docs/{path}':
+    get:
+      tags:
+      - swagger_ui
+      operationId: 'show'
+      parameters:
+      - in: path
+        name: path
+        schema:
+          type: string
+        description: None
+        required: True
+  '/api/docs/':
+    get:
+      tags:
+      - swagger_ui
+      operationId: 'show'
+  '/':
+    get:
+      tags:
+      - None
+      operationId: 'index'
+  '/{student_id}/':
+    get:
+      tags:
+      - None
+      operationId: 'student'
+      parameters:
+      - in: path
+        name: student_id
+        schema:
+          type: integer
+        description: None
+        required: True
+      requestBody:
+        $ref: '#/components/requestBodies/student_request_body' 
+      responses:
+        '200':
+          $ref: '#/components/responses/student_response'
+      security:
+        - bearerAuth: []
+  '/create/':
+    post:
+      tags:
+      - None
+      operationId: 'create'
+    get:
+      tags:
+      - None
+      operationId: 'create'
+  '/{student_id}/edit/':
+    post:
+      tags:
+      - None
+      operationId: 'edit'
+      parameters:
+      - in: path
+        name: student_id
+        schema:
+          type: integer
+        description: None
+        required: True
+    get:
+      tags:
+      - None
+      operationId: 'edit'
+      parameters:
+      - in: path
+        name: student_id
+        schema:
+          type: integer
+        description: None
+        required: True
+  '/student/{item_id}':
+    get:
+      tags:
+      - None
+      operationId: 'all_students'
+      parameters:
+      - in: path
+        name: item_id
+        schema:
+          type: integer
+        description: None
+        required: True
+      responses:
+        '200':
+          $ref: '#/components/responses/all_students_response'
+  '/students':
+    post:
+      tags:
+      - None
+      operationId: 'all_students'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_students_response'
+    get:
+      tags:
+      - None
+      operationId: 'all_students'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_students_response'
+  '/{student_id}/delete/':
+    post:
+      tags:
+      - None
+      operationId: 'delete'
+      parameters:
+      - in: path
+        name: student_id
+        schema:
+          type: integer
+        description: None
+        required: True
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  requestBodies:
+    student_request_body:
+      description: None
+      required: True
+      content:
+         application/json:
+             schema:
+                 $ref: '#/components/schemas/student'
+  responses:
+    student_response:
+      description: student response
+      content:
+         application/json:
+             schema:
+                 $ref: '#/components/schemas/student_response_schema'
+    all_students_response:
+      description: all_students response
+      content:
+         application/json:
+             schema:
+                 $ref: '#/components/schemas/all_students_response_schema'
+  schemas:
+    student:
+      type: object
+      properties:
+        id:
+          type: integer  
+          example: 10  
+        name:
+          type: string  
+          example: test_object  
+    student_response_schema:
+      type: object
+      properties:
+        age:
+          type: integer  
+          example: 32  
+        bio:
+          type: string  
+          example: INITIAL BIO  
+        created_at:
+          type: string  
+          example: 2023-08-01 18:47:02  
+        email:
+          type: string  
+          example: s@test.com  
+        firstname:
+          type: string  
+          example: Sudarshan  
+        id:
+          type: integer  
+          example: 1  
+        lastname:
+          type: string  
+          example: Shrestha  
+    all_students_response_schema:
+      type: object
+      properties:
+        age:
+          type: integer  
+          example: 32  
+        bio:
+          type: string  
+          example: INITIAL BIO  
+        created_at:
+          type: string  
+          example: 2023-08-01 18:47:02  
+        email:
+          type: string  
+          example: s@test.com  
+        firstname:
+          type: string  
+          example: Sudarshan  
+        id:
+          type: integer  
+          example: 1  
+        lastname:
+          type: string  
+          example: Shrestha  

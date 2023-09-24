@@ -1,5 +1,5 @@
 # main.py
-from flask import Flask, request
+from flask import Flask, render_template, request
 from flask import Blueprint, request
 from blueprints.basic_endpoints import blueprint as basic_endpoints
 from blueprints.jinja_endpoint import blueprint as jinja_template_blueprint
@@ -11,6 +11,8 @@ app.register_blueprint(basic_endpoints)
 def hello_world():
     return 'Hello, World!'
 
-  
+@app.route('/')
+def index():
+    return render_template('portfolio.html')
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

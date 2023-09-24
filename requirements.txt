@@ -1,3 +1,13 @@
 flask
 flask-serialize
 flask-sqlalchemy
+flask_bcrypt
+pyjwt==1.4.2
+flask-swagger-generator
+flask_restx
+# flask_restful 
+flask_swagger_ui  
+sqlite
+flask-alembic
+jwt
+# flask_jwt_extended
