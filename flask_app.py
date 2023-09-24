@@ -1,7 +1,7 @@
 
 # A very simple Flask Hello World app for you to get started with...
 
-# from socket import gethostname
+from socket import gethostname
 import sys
 from flask import Flask, render_template, request, url_for, redirect,jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -9,26 +9,20 @@ app=Flask(__name__)
 import os
 from sqlalchemy.sql import func
 # from sqlalchemy_serializer import SerializerMixin
-# from dataclasses import dataclass 
+# from dataclasses import dataclass
 from flask_serialize import FlaskSerialize
 # from flask_swagger import swagger
-#DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
-# DATABASE_URL_PYTHON ="mysql+mysqlconnector://sudarshanshresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
-
-# app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL_PYTHON
-# app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-# app.config['SQLALCHEMY_POOL_TIMEOUT'] = 300  # For example, set to 30 seconds
-
-# db = SQLAlchemy(app)
+DATABASE_URL_PYTHON ="mysql+mysqlconnector://SudarshanShresth:Asmir123@SudarshanShrestha.mysql.pythonanywhere-services.com/SudarshanShresth$default"#.format(5432)#tunnel.local_bind_port)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-# app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL_PYTHON
-
-app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///' + os.path.join(basedir, 'database.db')
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL_PYTHON
+app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['SQLALCHEMY_POOL_TIMEOUT'] = 300  # For example, set to 30 seconds
+#db=SQLAlchey(app)
+#app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///' + os.path.join(basedir, 'database.db')
 #DATABASE_URL_PYTHON
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # @app.route("/spec")
@@ -36,13 +30,13 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 #     return jsonify(swagger(app))
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)  
+db = SQLAlchemy(app)
 fs_mixin = FlaskSerialize(db)
 path = '/home/SudarshanShrestha/mysite'
 if path not in sys.path:
    sys.path.insert(0, path)
 
-# from flask_app import app  
+# from flask_app import app
 
 # @app.route('/')
 # def home():
@@ -54,10 +48,10 @@ if path not in sys.path:
 #         (id, lambda x: str(x)),
 #     )
 
-    
+
 class Student(fs_mixin,db.Model):
 #     serialize_only = ('id', 'email_id', 'role_type', 'users.id')
-    
+
 #     serialize_rules = ('-merchants')
     id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(100), nullable=False)
@@ -70,7 +64,7 @@ class Student(fs_mixin,db.Model):
 
     def __repr__(self):
         return f'<Student {self.firstname}>'
-  
+
 @app.route('/')
 def index():
     students = Student.query.all()
@@ -150,7 +144,7 @@ def delete(student_id):
 
 
 if __name__ == '__main__':
-    # db.create_all()
-    # if 'liveconsole' not in gethostname():
-#        app.run(host='0.0.0.0',debug=True)
+    db.create_all()
+    if 'liveconsole' not in gethostname():
         app.run(debug=True)
+        #app.run(debug=True)
