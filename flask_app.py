@@ -45,12 +45,14 @@ generator = Generator.of(SwaggerVersion.VERSION_THREE)
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL_PYTHON
+app.register_blueprint(swaggerui_blueprint)
+
+# app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL_PYTHON
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_POOL_TIMEOUT'] = 300  # For example, set to 30 seconds
 #db=SQLAlchey(app)
-#app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///' + os.path.join(basedir, 'database.db')
+app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///' + os.path.join(basedir, 'database.db')
 #DATABASE_URL_PYTHON
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # @app.route("/spec")
@@ -195,7 +197,9 @@ def delete(student_id):
 
 generator.generate_swagger(app, destination_path=swagger_destination_path)
 if __name__ == '__main__':
-    db.create_all()
+    with app.app_context():
+        db.create_all()
+        # init_db()
     if 'liveconsole' not in gethostname():
         app.run(debug=True)
         #app.run(debug=True)

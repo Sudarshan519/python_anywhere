@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Application
-  description: Generated at 24/09/2023 20:29:27. This is the swagger 
+  description: Generated at 25/09/2023 00:14:26. This is the swagger 
     ui based on the open api 3.0 specification of the Application
   version: 1.0.0 created by the flask swagger generator.
 externalDocs:
@@ -64,16 +64,16 @@ paths:
       security:
         - bearerAuth: []
   '/create/':
-    post:
-      tags:
-      - None
-      operationId: 'create'
     get:
       tags:
       - None
       operationId: 'create'
-  '/{student_id}/edit/':
     post:
+      tags:
+      - None
+      operationId: 'create'
+  '/{student_id}/edit/':
+    get:
       tags:
       - None
       operationId: 'edit'
@@ -84,7 +84,7 @@ paths:
           type: integer
         description: None
         required: True
-    get:
+    post:
       tags:
       - None
       operationId: 'edit'
@@ -111,14 +111,14 @@ paths:
         '200':
           $ref: '#/components/responses/all_students_response'
   '/students':
-    post:
+    get:
       tags:
       - None
       operationId: 'all_students'
       responses:
         '200':
           $ref: '#/components/responses/all_students_response'
-    get:
+    post:
       tags:
       - None
       operationId: 'all_students'
