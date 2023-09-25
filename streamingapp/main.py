@@ -9,8 +9,38 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 # from . import db
 # Configure the "media" directory path
-MEDIA_DIRECTORY = 'media'
+MEDIA_DIRECTORY = 'static'
 
+
+parser = reqparse.RequestParser()
+# parser.add_argument('rate', type=int, help='Rate cannot be converted')
+parser.add_argument('Authorization', location='headers')
+def login_required(func):
+    def wrapper(*args, **kwargs):
+        print("Something is happening before the function is called.")
+        headers = request.headers
+        print(headers)
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.startswith('Bearer '):
+            return {'message': 'Authorization header missing or invalid'}, 401
+
+        token = auth_header.split(' ')[1]
+        
+        try:
+            
+            payload = jwt.decode(token, 'your_secret_key', algorithms=['HS256'])
+            user_id = payload['user_id']
+            kwargs['user_id'] = user_id
+            return func(*args, **kwargs)
+            return {'message': 'This route is protected', 'user_id': user_id}, 200
+        except jwt.ExpiredSignatureError:
+            return {'message': 'Token has expired'}, 401
+        except jwt.InvalidTokenError:
+            return {'message': 'Invalid token'}, 401
+
+        return func(*args, **kwargs)
+        print("Something is happening after the function is called.")
+    return wrapper
 # Ensure the "media" directory exists
 if not os.path.exists(MEDIA_DIRECTORY):
     os.makedirs(MEDIA_DIRECTORY)
@@ -98,7 +128,7 @@ movie_upload_parser.add_argument('description', type=str, help='Item description
 movie_upload_parser.add_argument('movie', type=FileStorage, location='files', required=True, help='File upload')
 movie_upload_parser.add_argument('logo', type=FileStorage, location='files', required=True, help='File upload')
 movie_upload_parser.add_argument('trailer', type=str,  help='Youtube trailer id')
-movie_upload_parser.add_argument('genre', type=str,  help='Youtube trailer id')
+movie_upload_parser.add_argument('genre', type=str,  help='Genre')
 
 
 
@@ -208,7 +238,7 @@ class ItemListResource(Resource):
 
         if uploaded_file:
             # Save the uploaded file
-            file_path = os.path.join('media', uploaded_file.filename)
+            file_path = os.path.join(MEDIA_DIRECTORY, uploaded_file.filename)
             uploaded_file.save(file_path)
             # item.file = file_path
             # Create a new item with file_path
@@ -235,9 +265,12 @@ class CarouselModelResource(Resource):
             if item is None:
                 api.abort(404, f"{self.model.__name__} not found")
             return item
-        
-        
-
+            
+tvshow = api.namespace('tvshow', description='TV SHOWS')
+@tvshow.route("/")
+class TVShowResource(Resource):
+    def get(self):
+        return Tvshow.fs_get_delete_put_post()
 movie = api.namespace('movie', description='Movie')
 @movie.route("/movie")
 class MovieModelResource(Resource):
@@ -251,11 +284,11 @@ class MovieModelResource(Resource):
         uploaded_file = args['movie']
         logo=args['logo']
         if logo:
-            logo_path = os.path.join('media', uploaded_file.filename)
-            uploaded_file.save(logo_path)
+            logo_path = os.path.join(MEDIA_DIRECTORY, logo.filename)
+            logo.save(logo_path)
         if uploaded_file:
             # Save the uploaded file
-            file_path = os.path.join('media', uploaded_file.filename)
+            file_path = os.path.join(MEDIA_DIRECTORY, uploaded_file.filename)
             uploaded_file.save(file_path)
             
             # item.file = file_path
@@ -263,8 +296,9 @@ class MovieModelResource(Resource):
             new_item = MovieModel(
                 name=args['name'],
                 description=args['description'],
-                logo=file_path,
-                movie=logo_path,
+                genre=args['genre'],
+                logo=logo_path,
+                movie=file_path,
                 trailer=args['trailer']
             )
             db.session.add(new_item)
@@ -280,10 +314,12 @@ class MovieModelResource(Resource):
     def get(self,id):
         return MovieModel.fs_get_delete_put_post(id)
 @movie.route("/watch-movie:<int:id>")
+@api.header('X-Header', 'Some class header')
+@api.expect(parser)
 class WatchMovieResource(Resource):
 
     model=MovieModel
-  
+    @login_required
     def get(self,id):
         return MovieModel.fs_get_delete_put_post(id)
 
@@ -342,32 +378,7 @@ class UserLogin(Resource):
         return {'access_token': token}, 200
 
 
-def login_required(func):
-    def wrapper(*args, **kwargs):
-        print("Something is happening before the function is called.")
-        headers = request.headers
-        print(headers)
-        auth_header = request.headers.get('Authorization')
-        if not auth_header or not auth_header.startswith('Bearer '):
-            return {'message': 'Authorization header missing or invalid'}, 401
 
-        token = auth_header.split(' ')[1]
-        
-        try:
-            
-            payload = jwt.decode(token, 'your_secret_key', algorithms=['HS256'])
-            user_id = payload['user_id']
-            kwargs['user_id'] = user_id
-            return func(*args, **kwargs)
-            return {'message': 'This route is protected', 'user_id': user_id}, 200
-        except jwt.ExpiredSignatureError:
-            return {'message': 'Token has expired'}, 401
-        except jwt.InvalidTokenError:
-            return {'message': 'Invalid token'}, 401
-
-        return func(*args, **kwargs)
-        print("Something is happening after the function is called.")
-    return wrapper
 # Define a model for the expected header
 header_model = api.model('CustomHeader', {
     'Authorization': fields.String(description='Authorization token', required=True),
@@ -378,9 +389,7 @@ header_model = api.model('CustomHeader', {
 # from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 
 # Protected route that requires authentication
-parser = reqparse.RequestParser()
-# parser.add_argument('rate', type=int, help='Rate cannot be converted')
-parser.add_argument('Authorization', location='headers')
+
 @api.route("/hello")
 @api.header('X-Header', 'Some class header')
 @api.expect(parser)

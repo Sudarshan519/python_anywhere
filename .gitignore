@@ -1,3 +1,6 @@
 venv
 __pycache__
 .env
+.DS_Store
+static/SteinsGate_-_S01E01.mkv
+static/BigBuckBunny.mp4
